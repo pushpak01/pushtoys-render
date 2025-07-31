@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Toys</h2>
+<div>
+  <strong>Categories:</strong>
+  <ul>
+    {% for cat in categories %}
+      <li><a href="{% url 'products:product_by_category' cat.slug %}">{{ cat.name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="products">
+  {% for product in products %}
+    <div>
+      <img src="{{ product.image.url }}" width="150">
+      <h3><a href="{% url 'products:product_detail' product.pk %}">{{ product.name }}</a></h3>
+      <p>₹{{ product.price }}</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

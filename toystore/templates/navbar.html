@@ -1,0 +1,13 @@
+<nav style="background: #333; padding: 10px;">
+    <a href="/" style="color: #fff; margin-right: 15px;">🏠 Home</a>
+    <a href="/products/" style="color: #fff; margin-right: 15px;">🧸 Products</a>
+    <a href="/cart/" style="color: #fff; margin-right: 15px;">🛒 Cart</a>
+
+    {% if user.is_authenticated %}
+        <a href="/accounts/profile/" style="color: #fff; margin-right: 15px;">👤 {{ user.username }}</a>
+        <a href="/accounts/logout/" style="color: #fff;">🚪 Logout</a>
+    {% else %}
+        <a href="/accounts/login/" style="color: #fff; margin-right: 15px;">🔑 Login</a>
+        <a href="/accounts/register/" style="color: #fff;">📝 Register</a>
+    {% endif %}
+</nav>

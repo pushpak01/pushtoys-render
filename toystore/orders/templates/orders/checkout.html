@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Checkout</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <h3>Order Summary</h3>
+  <ul>
+    {% for item in cart %}
+      <li>{{ item.product.name }} (x{{ item.quantity }}) - ₹{{ item.total_price }}</li>
+    {% endfor %}
+  </ul>
+  <p><strong>Total: ₹{{ cart.get_total_price }}</strong></p>
+  <button type="submit">Place Order</button>
+</form>
+{% endblock %}

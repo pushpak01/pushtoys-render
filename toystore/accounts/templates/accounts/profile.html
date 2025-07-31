@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome, {{ user.username }}</h2>
+<p>Email: {{ user.email }}</p>
+<p>Address: {{ profile.address }}</p>
+<p>Phone: {{ profile.phone }}</p>
+<a href="{% url 'accounts:logout' %}">Logout</a>
+{% endblock %}
