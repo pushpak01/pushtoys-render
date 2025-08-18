@@ -1,10 +1,108 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
 {% block content %}
-<h2>Register</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ user_form.as_p }}
-  {{ profile_form.as_p }}
-  <button type="submit">Register</button>
-</form>
+<!-- Fun Font -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<style>
+  body {
+    background: url("{% static 'img/kids-bg.jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  .register-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 700px;
+    margin: 60px auto;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+  .register-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #ff4081;
+    margin-bottom: 30px;
+  }
+
+  .form-label {
+    font-weight: bold;
+    color: #444;
+  }
+
+  .form-control {
+    border-radius: 15px;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+  }
+
+  .btn-register {
+    background: linear-gradient(to right, #ff6ec4, #7873f5);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    transition: 0.4s;
+  }
+
+  .btn-register:hover {
+    background: linear-gradient(to right, #ff8eb9, #a88beb);
+  }
+
+  .toy-icon {
+    width: 120px;
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    animation: float 2.5s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+  }
+</style>
+
+<!-- Page Content -->
+<div class="register-card">
+  <img src="{% static 'img/teddy.png' %}" class="toy-icon" alt="toy" />
+
+  <h2 class="register-title">🎈 Create Your Account 🎉</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% for field in user_form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {% render_field field class="form-control" %}
+        {% if field.errors %}
+          <small class="text-danger">{{ field.errors|join:", " }}</small>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    {% for field in profile_form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {% render_field field class="form-control" %}
+        {% if field.errors %}
+          <small class="text-danger">{{ field.errors|join:", " }}</small>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-register">🚀 Register Now</button>
+    </div>
+  </form>
+</div>
 {% endblock %}

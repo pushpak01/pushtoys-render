@@ -11,7 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('products/', include('products.urls')),
-    path('cart/', include('cart.urls')),
+    path('cart/', include('cart.urls', namespace='cart')),
     path('orders/', include('orders.urls')),
     path('', home, name='home'),  # Home page
 ]

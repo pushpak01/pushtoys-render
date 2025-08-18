@@ -1,8 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Welcome, {{ user.username }}</h2>
-<p>Email: {{ user.email }}</p>
-<p>Address: {{ profile.address }}</p>
-<p>Phone: {{ profile.phone }}</p>
-<a href="{% url 'accounts:logout' %}">Logout</a>
+{% load static %}
+
+<div class="profile-container">
+    <div class="profile-content">
+        <!-- Realistic Spring and Teddy Bear -->
+        <div class="spring-animation">
+            <div class="spring">
+                <div class="coil"></div>
+                <div class="coil"></div>
+                <div class="coil"></div>
+            </div>
+            <div class="teddy-bear">
+                <!-- Head -->
+                <div class="head">
+                    <div class="ear left"></div>
+                    <div class="ear right"></div>
+                    <div class="face">
+                        <div class="eye left"></div>
+                        <div class="eye right"></div>
+                        <div class="muzzle">
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Body -->
+                <div class="body"></div>
+                <!-- Arms -->
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+            </div>
+        </div>
+
+        <!-- User Information -->
+        <div class="user-info">
+            <h2>👋 Welcome, {{ user.username }}</h2>
+            <p>📧 Email: {{ user.email }}</p>
+            <p>🏠 Address: {{ profile.address }}</p>
+            <p>📱 Phone: {{ profile.phone }}</p>
+        </div>
+    </div>
+
+    <!-- Logout Button -->
+    <form method="POST" action="/accounts/logout/" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">🚪 Logout</button>
+    </form>
+</div>
+
 {% endblock %}

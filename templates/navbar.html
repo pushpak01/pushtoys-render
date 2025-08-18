@@ -1,13 +1,123 @@
-<nav style="background: #333; padding: 10px;">
-    <a href="/" style="color: #fff; margin-right: 15px;">🏠 Home</a>
-    <a href="/products/" style="color: #fff; margin-right: 15px;">🧸 Products</a>
-    <a href="/cart/" style="color: #fff; margin-right: 15px;">🛒 Cart</a>
+{% load static %}
+
+<nav style="
+    position: relative;
+    background: url('{% static 'img/toyimg.jpg' %}') no-repeat center center;
+    background-size: cover;
+    padding: 20px 40px;
+    border-radius: 12px;
+    margin: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+">
+
+    <a href="/" style="
+    color: #ff0000;
+    margin-right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+">🎉 Pushtoys</a>
+
+    <a href="/products/" style="
+    color: #fff;
+    margin-right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Baloo 2', cursive;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block; ">🧸 Products</a>
+
+    <a href="/cart/" style="
+    color: #fff;
+    margin-right: 600px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block; ">🛒 Cart</a>
 
     {% if user.is_authenticated %}
-        <a href="/accounts/profile/" style="color: #fff; margin-right: 15px;">👤 {{ user.username }}</a>
-        <a href="/accounts/logout/" style="color: #fff;">🚪 Logout</a>
+        <a href="/accounts/profile/" style="
+    color: #fff;
+    margin-right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block">👤 {{ user.username }}</a>
+
+    <form method="POST" action="/accounts/logout/" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-link" style="
+    color: #fff;
+    margin-left: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;">🚪 Logout</button>
+    </form>
+
+
     {% else %}
-        <a href="/accounts/login/" style="color: #fff; margin-right: 15px;">🔑 Login</a>
-        <a href="/accounts/register/" style="color: #fff;">📝 Register</a>
+
+    <a href="/accounts/login/" style="
+    color: #fff;
+    margin-right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block; ">🔑 Login</a>
+
+    <a href="/accounts/register/" style="
+    color: #fff;
+    margin-left: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block; ">📝 Register</a>
+
     {% endif %}
 </nav>
+
+

@@ -10,13 +10,23 @@ def register_view(request):
         profile_form = ProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
+            # Save user
             user = user_form.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
+
+            # Check if profile already exists
+            profile, created = Profile.objects.get_or_create(user=user)
+            # Update profile with form data
+            for field, value in profile_form.cleaned_data.items():
+                setattr(profile, field, value)
             profile.save()
 
+            # Authenticate and login
+            username = user_form.cleaned_data.get('username')
+            password = user_form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('/')
+
     else:
         user_form = UserRegisterForm()
         profile_form = ProfileForm()
@@ -28,5 +38,8 @@ def register_view(request):
 
 @login_required
 def profile_view(request):
-    profile = Profile.objects.get(user=request.user)
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = Profile.objects.create(user=request.user)
     return render(request, 'accounts/profile.html', {'profile': profile})

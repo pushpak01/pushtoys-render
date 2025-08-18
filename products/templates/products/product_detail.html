@@ -1,12 +1,244 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pushtoys - {{ product.name }}{% endblock %}
+
 {% block content %}
-<h2>{{ product.name }}</h2>
-<img src="{{ product.image.url }}" width="300">
-<p><strong>Category:</strong> {{ product.category.name }}</p>
-<p>{{ product.description }}</p>
-<p><strong>Price:</strong> ₹{{ product.price }}</p>
-<form action="{% url 'cart:add_to_cart' product.id %}" method="post">
-  {% csrf_token %}
-  <button type="submit">Add to Cart</button>
-</form>
+<div class="container my-5">
+    <div class="row">
+        <!-- Product Image Gallery -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}"
+                         class="img-fluid"
+                         alt="{{ product.name }}"
+                         style="max-height: 400px; width: auto;">
+                    {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center"
+                         style="height: 400px; width: 100%;">
+                        <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Share Buttons -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Share this product</h5>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-facebook"></i> Facebook
+                        </a>
+                        <a href="#" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-twitter"></i> Twitter
+                        </a>
+                        <a href="#" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-envelope"></i> Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h1 class="h2">{{ product.name }}</h1>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="h3 text-danger">${{ product.price }}</span>
+                            {% if product.stock > 0 %}
+                                <span class="badge bg-success ms-2">In Stock ({{ product.stock }} available)</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Out of Stock</span>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <span class="text-muted">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-half text-warning"></i>
+                                (24 reviews)
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="mb-2">Description</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="mb-2">Details</h5>
+                        <ul class="list-unstyled">
+                            <li><strong>Category:</strong>
+                                <a href="{% url 'products:by_category' product.category.slug %}">
+                                    {{ product.category.name }}
+                                </a>
+                            </li>
+                            <li><strong>Added:</strong> {{ product.created_at|date:"F j, Y" }}</li>
+                            <li><strong>Last Updated:</strong> {{ product.updated_at|date:"F j, Y" }}</li>
+                        </ul>
+                    </div>
+
+                    <form action="{% url 'cart:add' product.id %}" method="post" class="mb-4">
+                        {% csrf_token %}
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="quantity" class="col-form-label">Quantity:</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="number"
+                                       id="quantity"
+                                       name="quantity"
+                                       value="1"
+                                       min="1"
+                                       max="{{ product.stock }}"
+                                       class="form-control"
+                                       style="width: 80px;">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit"
+                                        class="btn btn-danger btn-lg"
+                                        {% if product.stock <= 0 %}disabled{% endif %}>
+                                    <i class="bi bi-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="alert alert-info">
+                        <i class="bi bi-truck"></i> Free shipping on orders over $50
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="mb-4">You may also like</h3>
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {% for related in related_products %}
+                <div class="col">
+                    <div class="card h-100">
+                        <a href="{% url 'products:detail' related.id %}">
+                            {% if related.image %}
+                            <img src="{{ related.image.url }}"
+                                 class="card-img-top p-2"
+                                 alt="{{ related.name }}"
+                                 style="height: 150px; object-fit: contain;">
+                            {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                                 style="height: 150px;">
+                                <i class="bi bi-image text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'products:detail' related.id %}" class="text-decoration-none">
+                                    {{ related.name }}
+                                </a>
+                            </h5>
+                            <p class="card-text text-danger">${{ related.price }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Product Reviews -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="mb-4">Customer Reviews</h3>
+
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4 mb-md-0">
+                            <div class="display-4 text-warning">4.5</div>
+                            <div class="mb-2">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-half text-warning"></i>
+                            </div>
+                            <p class="text-muted">Based on 24 reviews</p>
+                        </div>
+
+                        <div class="col-md-8">
+                            <!-- Review Form (would need review app to implement fully) -->
+                            <form class="mb-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Your Rating</label>
+                                    <div class="rating">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" rows="3" placeholder="Write your review..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                            </form>
+
+                            <!-- Review List -->
+                            <div class="list-group">
+                                <!-- Sample Review (would loop through real reviews) -->
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <strong>John D.</strong>
+                                        <small class="text-muted">2 days ago</small>
+                                    </div>
+                                    <div class="mb-2 text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p>Great product! My kids love it. Very durable and well made.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .rating {
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    .card-img-top {
+        background-color: #f8f9fa;
+    }
+    .btn-cart {
+        transition: all 0.3s;
+    }
+    .btn-cart:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
 {% endblock %}

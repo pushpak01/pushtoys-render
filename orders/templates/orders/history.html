@@ -1,19 +1,46 @@
 {% extends 'base.html' %}
+{% load humanize %}
+
 {% block content %}
 <h2>Your Orders</h2>
 
 {% for order in orders %}
-  <div>
-    <p><strong>Order #{{ order.id }}</strong> ({{ order.created_at|date:"SHORT_DATETIME_FORMAT" }})</p>
-    <ul>
-      {% for item in order.items.all %}
-        <li>{{ item.quantity }} × {{ item.product.name }} – ₹{{ item.price }}</li>
-      {% endfor %}
-    </ul>
-    <p><strong>Total:</strong> ₹{{ order.items.all|sum:"price" }}</p>
-    <hr>
+  <div class="order-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+    <p>
+      <strong>Order #{{ order.id }}</strong>
+      <span style="color: #666;">({{ order.created_at|date:"d M Y, h:i A" }})</span>
+    </p>
+
+    <table style="width: 100%; margin: 10px 0;">
+      <thead>
+        <tr style="border-bottom: 1px solid #eee;">
+          <th style="text-align: left; padding: 5px;">Item</th>
+          <th style="text-align: right; padding: 5px;">Price</th>
+          <th style="text-align: right; padding: 5px;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.items.all %}
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 5px;">{{ item.quantity }} × {{ item.product.name }}</td>
+          <td style="text-align: right; padding: 5px;">₹{{ item.price|floatformat:2 }}</td>
+          <td style="text-align: right; padding: 5px;">₹{{ item.get_cost|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div style="text-align: right; margin-top: 10px;">
+      <p>Subtotal: ₹{{ order.subtotal|floatformat:2 }}</p>
+      {% if order.tax_amount %}
+      <p>Tax (GST): ₹{{ order.tax_amount|floatformat:2 }}</p>
+      {% endif %}
+      <p><strong>Grand Total: ₹{{ order.grand_total|floatformat:2 }}</strong></p>
+    </div>
+
+    <hr style="border-top: 1px dashed #ccc;">
   </div>
 {% empty %}
-  <p>No orders yet.</p>
+  <div class="alert alert-info">No orders yet. <a href="{% url 'products:list' %}">Start shopping</a></div>
 {% endfor %}
 {% endblock %}

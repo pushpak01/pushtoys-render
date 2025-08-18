@@ -1,4 +1,5 @@
 import os
+from decimal import Decimal
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,8 +15,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     'accounts',
+    'sorl.thumbnail',
+    'widget_tweaks',
     'products',
     'cart',
     'orders',
@@ -31,7 +35,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'toystore.urls'
+ROOT_URLCONF = 'toystore-final01.urls'
 
 TEMPLATES = [
     {
@@ -49,7 +53,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'toystore.wsgi.application'
+WSGI_APPLICATION = 'toystore-final01.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -58,11 +62,20 @@ DATABASES = {
     }
 }
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
 ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / 'cache',
+    }
+}
+
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kolkata'
@@ -72,7 +85,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#cart tax added
+INDIAN_TAX_RATES = {
+    'GST': {
+        'cgst': Decimal('0.09'),  # 9% Central GST
+        'sgst': Decimal('0.09'),  # 9% State GST
+        'igst': Decimal('0.18'),  # 18% Integrated GST (for inter-state)
+    },
+    # You can add more tax slabs (5%, 12%, 28% etc.)
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

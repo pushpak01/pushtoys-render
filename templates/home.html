@@ -1,7 +1,138 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome to ToyStore 🧸</h1>
-<p>Find your favorite toys and bring home joy today!</p>
-<a href="{% url 'products:product_list' %}">Browse Toys →</a>
+<!-- Animated Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="title-word title-word-1">Welcome</span>
+      <span class="title-word title-word-2">to</span>
+      <span class="title-word title-word-3">Push</span>
+      <span class="title-word title-word-4">Toys</span>
+      <span class="emoji">🧸</span>
+    </h1>
+    <p class="hero-subtitle">Where imagination comes to play!</p>
+    <div class="hero-buttons">
+      <a href="{% url 'products:list' %}" class="btn-explore">
+        Explore Toys
+        <svg viewBox="0 0 13 10" height="10px" width="15px">
+          <path d="M1,5 L11,5"></path>
+          <polyline points="8 1 12 5 8 9"></polyline>
+        </svg>
+      </a>
+      <a href="#featured" class="btn-featured">
+        <span>Featured</span>
+        <span class="star">★</span>
+      </a>
+    </div>
+    <div class="floating-toys">
+      <div class="toy toy-1">🚀</div>
+      <div class="toy toy-2">🧩</div>
+      <div class="toy toy-3">🎨</div>
+      <div class="toy toy-4">🎮</div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Featured Toys Section -->
+<section class="featured" id="featured">
+  <div class="section-header">
+    <h2>Featured <span>Toys</span></h2>
+    <div class="underline"></div>
+  </div>
+
+  <div class="toy-grid">
+    {% for product in featured_products %}
+    <div class="toy-card">
+      <div class="toy-badge">Popular</div>
+      <div class="toy-image" style="background-image: url('{{ product.image.url }}');">
+        <div class="toy-overlay">
+          <a href="{{ product.get_absolute_url }}" class="view-btn">Quick View</a>
+        </div>
+      </div>
+      <div class="toy-info">
+        <h3>{{ product.name }}</h3>
+        <div class="toy-meta">
+          <span class="price">${{ product.price }}</span>
+          <span class="rating">★★★★☆</span>
+        </div>
+        <a href="#" class="add-to-cart">Add to Cart</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories">
+  <div class="section-header">
+    <h2>Shop by <span>Category</span></h2>
+    <div class="underline"></div>
+  </div>
+
+  <div class="category-grid">
+    <a href="#" class="category-card">
+      <div class="category-icon">🧸</div>
+      <h3>Stuffed Animals</h3>
+      <p>Soft and cuddly friends</p>
+    </a>
+    <a href="#" class="category-card">
+      <div class="category-icon">🧩</div>
+      <h3>Puzzles</h3>
+      <p>Brain-teasing fun</p>
+    </a>
+    <a href="#" class="category-card">
+      <div class="category-icon">🚗</div>
+      <h3>Vehicles</h3>
+      <p>Zoom zoom!</p>
+    </a>
+    <a href="#" class="category-card">
+      <div class="category-icon">🎨</div>
+      <h3>Arts & Crafts</h3>
+      <p>Creative expression</p>
+    </a>
+  </div>
+</section>
+
+<!-- Testimonial Section -->
+<section class="testimonials">
+  <div class="section-header">
+    <h2>Happy <span>Customers</span></h2>
+    <div class="underline"></div>
+  </div>
+
+  <div class="testimonial-slider">
+    <div class="testimonial-card">
+      <div class="testimonial-content">
+        <div class="quote">"</div>
+        <p>My daughter hasn't put down the teddy bear since it arrived! The quality is exceptional and delivery was super fast.</p>
+        <div class="author">
+          <div class="author-avatar">👩</div>
+          <div class="author-info">
+            <h4>Sarah Johnson</h4>
+            <p>Mom of 2</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- More testimonials would go here -->
+  </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter">
+  <div class="newsletter-container">
+    <h3>Join Our Toy Club!</h3>
+    <p>Get exclusive offers, toy news, and special surprises in your inbox.</p>
+    <form class="newsletter-form">
+      <input type="email" placeholder="Your email address">
+      <button type="submit">Subscribe <span>🎁</span></button>
+    </form>
+  </div>
+</section>
 {% endblock %}

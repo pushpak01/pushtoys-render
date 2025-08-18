@@ -1,17 +1,157 @@
 {% extends 'base.html' %}
-{% block content %}
-<h2>Checkout</h2>
+{% load humanize %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <h3>Order Summary</h3>
-  <ul>
-    {% for item in cart %}
-      <li>{{ item.product.name }} (x{{ item.quantity }}) - ₹{{ item.total_price }}</li>
-    {% endfor %}
-  </ul>
-  <p><strong>Total: ₹{{ cart.get_total_price }}</strong></p>
-  <button type="submit">Place Order</button>
-</form>
+{% block content %}
+<div class="checkout-container">
+  <div class="row">
+    <!-- Customer Information Form -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">Customer Information</h2>
+        </div>
+        <div class="card-body">
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <!-- PROPERLY STRUCTURED FORM FIELDS -->
+            <div class="form-group">
+              {{ form.full_name.label_tag }}
+              {{ form.full_name }}
+              {% if form.full_name.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.full_name.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              {{ form.email.label_tag }}
+              {{ form.email }}
+              {% if form.email.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.email.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              {{ form.address.label_tag }}
+              {{ form.address }}
+              {% if form.address.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.address.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              {{ form.phone.label_tag }}
+              {{ form.phone }}
+              {% if form.phone.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.phone.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mt-4">
+              <i class="fas fa-lock"></i> Place Order Securely
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="col-md-6">
+  <div class="card">
+    <div class="card-header bg-info text-white">
+      <h2 class="mb-0">Order Summary</h2>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Product</th>
+            <th class="text-right">Quantity</th>
+            <th class="text-right">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+            <tr>
+              <td>{{ item.product.name }}</td>
+              <td class="text-right">{{ item.quantity }}</td>
+              <td class="text-right">₹{{ item.price|floatformat:2 }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="totals-section mt-4">
+        <!-- Subtotal -->
+        <div class="d-flex justify-content-between">
+          <span>Subtotal:</span>
+          <span>₹{{ cart.get_grand_total.subtotal|floatformat:2 }}</span>
+        </div>
+
+        <!-- Tax Breakdown -->
+        {% if cart.get_grand_total.taxes.igst %}
+          <div class="d-flex justify-content-between">
+            <span>IGST (18%):</span>
+            <span>₹{{ cart.get_grand_total.taxes.igst|floatformat:2 }}</span>
+          </div>
+        {% else %}
+          <div class="d-flex justify-content-between">
+            <span>CGST (9%):</span>
+            <span>₹{{ cart.get_grand_total.taxes.cgst|floatformat:2 }}</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span>SGST (9%):</span>
+            <span>₹{{ cart.get_grand_total.taxes.sgst|floatformat:2 }}</span>
+          </div>
+        {% endif %}
+
+        <!-- Total Tax -->
+        <div class="d-flex justify-content-between">
+          <span>Total Tax:</span>
+          <span>₹{{ cart.get_grand_total.taxes.total_tax|floatformat:2 }}</span>
+        </div>
+
+        <hr>
+
+        <!-- Grand Total -->
+        <div class="d-flex justify-content-between font-weight-bold">
+          <span>Grand Total:</span>
+          <span>₹{{ cart.get_grand_total.grand_total|floatformat:2 }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<style>
+  .checkout-container {
+    padding: 20px 0;
+  }
+  .invalid-feedback {
+    color: #dc3545;
+    font-size: 80%;
+  }
+  .card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .form-control:invalid {
+    border-color: #dc3545;
+  }
+</style>
 {% endblock %}
