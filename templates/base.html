@@ -14,129 +14,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-
-    <style>
-    /* Preloader Styles */
-    #preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #000000, #090909, #131313);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      color: #fff;
-      font-family: "Poppins", sans-serif;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
-    }
-
-    /* Animated Brand Text */
-    .loader-text {
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      background: linear-gradient(45deg, #ff416c, #ff4b2b, #1cb5e0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 2s infinite alternate;
-    }
-
-    @keyframes glow {
-      0% { text-shadow: 0 0 10px rgba(255,255,255,0.2); }
-      100% { text-shadow: 0 0 30px rgba(255,255,255,0.9); }
-    }
-
-    /* Circular Progress */
-    .progress-ring {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin-top: 25px;
-    }
-
-    .progress-ring circle {
-      fill: transparent;
-      stroke-width: 10;
-      stroke-linecap: round;
-    }
-
-    .progress-ring .bg {
-      stroke: rgba(255,255,255,0.2);
-    }
-
-    .progress-ring .progress {
-      stroke: #1cb5e0;
-      stroke-dasharray: 314; /* 2 * π * r (r=50) */
-      stroke-dashoffset: 314;
-      transition: stroke-dashoffset 0.3s linear;
-    }
-
-    /* Percentage */
-    .percentage {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    /* Hide Preloader after load */
-    body.loaded #preloader {
-      opacity: 0;
-      visibility: hidden;
-    }
-  </style>
-
 </head>
 <body>
-
-    <!-- Preloader -->
-  <div id="preloader">
-    <div class="loader-text">Pushtoys</div>
-    <div class="progress-ring">
-      <svg width="120" height="120">
-        <circle class="bg" cx="60" cy="60" r="50"></circle>
-        <circle class="progress" cx="60" cy="60" r="50"></circle>
-      </svg>
-      <div class="percentage" id="percentage">0%</div>
-    </div>
-  </div>
-
-  <script>
-    // Animate progress 0 → 100%
-    let progress = 0;
-    let percentage = document.getElementById("percentage");
-    let progressCircle = document.querySelector(".progress-ring .progress");
-    let radius = 50;
-    let circumference = 2 * Math.PI * radius;
-
-    function setProgress(value) {
-      let offset = circumference - (value / 100) * circumference;
-      progressCircle.style.strokeDashoffset = offset;
-    }
-
-    let interval = setInterval(() => {
-      if (progress >= 100) {
-        clearInterval(interval);
-        document.body.classList.add("loaded"); // Hide preloader
-      } else {
-        progress += 2; // speed of loading
-        setProgress(progress);
-        percentage.innerText = progress + "%";
-      }
-    }, 40); // Adjust speed
-  </script>
 
     {% include 'navbar.html' %}
 
     <div class="container">
+        {% block extra_css %}
+        {% endblock %}
+        {% block extra_js %}
+        {% endblock %}
         {% block content %}
         {% endblock %}
     </div>
