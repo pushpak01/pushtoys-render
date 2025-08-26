@@ -49,24 +49,31 @@
   <div class="toy-grid">
     {% for product in featured_products %}
     <div class="toy-card">
+      {% if product.is_featured %}
       <div class="toy-badge">Popular</div>
+      {% endif %}
+
       <div class="toy-image" style="background-image: url('{{ product.image.url }}');">
         <div class="toy-overlay">
-          <a href="{{ product.get_absolute_url }}" class="view-btn">Quick View</a>
+          <a href="{% url 'products:detail_with_slug' pk=product.pk slug=product.slug %}">Quick View</a>
         </div>
       </div>
+
       <div class="toy-info">
         <h3>{{ product.name }}</h3>
         <div class="toy-meta">
-          <span class="price">${{ product.price }}</span>
+          <span class="price">₹ {{ product.price }}</span>
           <span class="rating">★★★★☆</span>
         </div>
-        <a href="#" class="add-to-cart">Add to Cart</a>
+        <a href="{% url 'cart:add' product_id=product.id %}" class="add-to-cart">Add to Cart</a>
       </div>
     </div>
+    {% empty %}
+    <p>No featured products available right now.</p>
     {% endfor %}
   </div>
 </section>
+
 
 <!-- Categories Section -->
 <section class="categories">
@@ -76,22 +83,20 @@
   </div>
 
   <div class="category-grid">
-    <a href="#" class="category-card">
+    <a href="{% url 'products:by_category' category_slug='plug-toys' %}" class="category-card">
       <div class="category-icon">🧸</div>
-      <h3>Stuffed Animals</h3>
-      <p>Soft and cuddly friends</p>
+      <h3>Plug toys</h3>
     </a>
-    <a href="#" class="category-card">
-      <div class="category-icon">🧩</div>
-      <h3>Puzzles</h3>
-      <p>Brain-teasing fun</p>
+    <a href="{% url 'products:by_category' category_slug='dollhouse-toys' %}" class="category-card">
+      <div class="category-icon">🏩</div>
+      <h3>Dollhouse Toys</h3>
     </a>
-    <a href="#" class="category-card">
+    <a href="{% url 'products:by_category' category_slug='vehicles' %}" class="category-card">
       <div class="category-icon">🚗</div>
       <h3>Vehicles</h3>
       <p>Zoom zoom!</p>
     </a>
-    <a href="#" class="category-card">
+    <a href="{% url 'products:by_category' category_slug='arts-crafts' %}" class="category-card">
       <div class="category-icon">🎨</div>
       <h3>Arts & Crafts</h3>
       <p>Creative expression</p>
@@ -129,10 +134,20 @@
   <div class="newsletter-container">
     <h3>Join Our Toy Club!</h3>
     <p>Get exclusive offers, toy news, and special surprises in your inbox.</p>
-    <form class="newsletter-form">
-      <input type="email" placeholder="Your email address">
-      <button type="submit">Subscribe <span>🎁</span></button>
+    <form method="post" action="{% url 'products:newsletter_subscribe' %}" class="newsletter-form">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
     </form>
+
+      <!-- Show success/error messages -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
   </div>
 </section>
 {% endblock %}

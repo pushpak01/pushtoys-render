@@ -1,3 +1,7 @@
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
 <footer class="site-footer">
     <div class="footer-container">
         <!-- Footer Columns -->
@@ -18,27 +22,34 @@
                 <ul class="footer-links">
                     <li><a href="/">Home</a></li>
                     <li><a href="/products">Our Toys</a></li>
-                    <li><a href="/about">About Us</a></li>
-                    <li><a href="/contact">Contact</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h3 class="footer-heading">Contact Info</h3>
                 <ul class="footer-contact">
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Toy Street, Plushville</li>
-                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
-                    <li><i class="fas fa-envelope"></i> hello@pushtoys.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i>No:08 Dhamodharan street, Perambur</li>
+                    <li><i class="fas fa-phone"></i>9844446875 </li>
+                    <li><i class="fas fa-envelope"></i>toys@pushtoys.com </li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h3 class="footer-heading">Newsletter</h3>
                 <p class="footer-text">Subscribe for updates and special offers!</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email" required>
-                    <button type="submit" class="subscribe-btn">Subscribe</button>
+                <form method="post" action="{% url 'products:newsletter_subscribe' %}" class="newsletter-form">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
                 </form>
+                <!-- Show success/error messages -->
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </div>
 
@@ -159,7 +170,8 @@
         margin-bottom: 15px;
         display: flex;
         align-items: center;
-        color: #5a7a82;
+        font-size: 1rem;
+        color: #333;
     }
 
     .footer-contact i {

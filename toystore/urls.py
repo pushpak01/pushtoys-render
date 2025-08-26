@@ -2,10 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.shortcuts import render
-
-def home(request):
-    return render(request, 'home.html')
+from products.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),

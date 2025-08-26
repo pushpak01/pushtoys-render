@@ -7,14 +7,8 @@ __pycache__/
 *.pyc
 
 # Django
-db.sqlite3
-/media/
 /staticfiles/
 
-# Environments
-.env
-venv/
-.venv/
 
 # VSCode or PyCharm
 .vscode/
@@ -28,7 +22,10 @@ Thumbs.db
 db.sqlite3
 
 # Ignore uploaded images
+/cache/
 /media/
+/media/cache
+/media/product_images
 
 # Ignore virtual environment
 .venv/

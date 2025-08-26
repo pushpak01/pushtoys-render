@@ -1,9 +1,15 @@
 from django.contrib import admin
-from .models import Category, Product
+from .models import Category, Product, NewsletterSubscriber
 from .forms import ProductForm
 from django.utils.html import format_html
 from django.db.models import Count
 from sorl.thumbnail import get_thumbnail
+
+@admin.register(NewsletterSubscriber)
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display = ("email", "subscribed_at")
+    search_fields = ("email",)
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -34,10 +40,11 @@ class ProductAdmin(admin.ModelAdmin):
         'image_preview',
         'available',
         'created_at',
+        "is_featured",
     )
-    list_filter = ('category', 'available', 'created_at')
+    list_filter = ('category', 'available', 'created_at',"is_featured")
     search_fields = ('name',)
-    list_editable = ('price', 'stock', 'available')
+    list_editable = ('price', 'stock', 'available',"is_featured")
     readonly_fields = ('image_preview', 'created_at', 'updated_at')
     date_hierarchy = 'created_at'
     fieldsets = (

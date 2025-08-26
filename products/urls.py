@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.product_list, name='list'),
     path('search/', views.product_list, name='search'),
     path('category/<slug:category_slug>/', views.product_list, name='by_category'),
+    path("subscribe/", views.newsletter_subscribe, name="newsletter_subscribe"),
 
     # Product detail views (with and without slug)
     path('product/<int:pk>/', views.product_detail, name='detail'),

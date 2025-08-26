@@ -51,7 +51,7 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
-                            <span class="h3 text-danger">${{ product.price }}</span>
+                            <span class="h3 text-danger">₹ {{ product.price }}</span>
                             {% if product.stock > 0 %}
                                 <span class="badge bg-success ms-2">In Stock ({{ product.stock }} available)</span>
                             {% else %}
@@ -115,7 +115,7 @@
                     </form>
 
                     <div class="alert alert-info">
-                        <i class="bi bi-truck"></i> Free shipping on orders over $50
+                        <i class="bi bi-truck"></i> Free shipping on orders over ₹ 500
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@
                                     {{ related.name }}
                                 </a>
                             </h5>
-                            <p class="card-text text-danger">${{ related.price }}</p>
+                            <p class="card-text text-danger">₹ {{ related.price }}</p>
                         </div>
                     </div>
                 </div>

@@ -35,7 +35,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'toystore-final01.urls'
+ROOT_URLCONF = 'toystore.urls'
 
 TEMPLATES = [
     {
@@ -53,7 +53,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'toystore-final01.wsgi.application'
+WSGI_APPLICATION = 'toystore.wsgi.application'
 
 DATABASES = {
     'default': {

@@ -1,0 +1,168 @@
+/* ==============================
+   Navbar Base Styles
+   ============================== */
+.navbar {
+  position: relative;
+  background: url("/static/img/toyimg.jpg") no-repeat center center;
+  background-size: cover;
+  padding: 20px 40px;
+  border-radius: 12px;
+  margin: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* left & right split */
+  flex-wrap: wrap;
+}
+
+/* Remove background image when active (mobile menu open) */
+.navbar.active {
+  background: #fda085; /* solid fallback */
+  transition: background 0.4s ease;
+}
+
+/* ==============================
+   Branding
+   ============================== */
+.navbar-brand {
+  color: #ff0000;
+  margin-right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  padding: 6px 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+}
+
+/* ==============================
+   Navigation Links
+   ============================== */
+.nav-link,
+.nav-button {
+  color: #fff;
+  margin-right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  padding: 6px 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Special font for Products */
+.nav-link.products {
+  font-family: 'Baloo 2', cursive;
+}
+
+/* Logout button reset */
+.nav-button {
+  border: none;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+}
+
+/* ==============================
+   Layout Groups
+   ============================== */
+.left-links {
+  display: flex;
+  align-items: center;
+}
+
+.right-links {
+  display: flex;
+  align-items: center;
+}
+
+/* ==============================
+   Hamburger Menu
+   ============================== */
+/* ==============================
+   Hamburger Menu (Mobile + Tablet)
+   ============================== */
+.menu-toggle {
+  display: none; /* hidden on desktop */
+  font-size: 10px;
+  color: #fff;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Show on mobile + tablets */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+    margin-bottom: 10px;
+  }
+}
+
+
+/* ==============================
+   Responsive - Tablet
+   ============================== */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+  .nav-link,
+  .nav-button {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+}
+
+/* ==============================
+   Responsive - Mobile
+   ============================== */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-links,
+  .right-links {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    display: none; /* hidden until active */
+  }
+
+  .navbar.active .left-links,
+  .navbar.active .right-links {
+    display: flex;
+  }
+
+  .nav-link,
+  .nav-button {
+    margin: 10px 0;
+    width: 90%;
+    text-align: center;
+  }
+}

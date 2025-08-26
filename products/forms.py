@@ -1,6 +1,12 @@
 from django import forms
 from .models import Product, Category
 from django.core.validators import MinValueValidator
+from .models import NewsletterSubscriber
+
+class NewsletterForm(forms.ModelForm):
+    class Meta:
+        model = NewsletterSubscriber
+        fields = ['email']
 
 
 class ProductSearchForm(forms.Form):

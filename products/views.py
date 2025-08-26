@@ -1,8 +1,22 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Category, Product
-from .forms import ProductSearchForm
+from .forms import ProductSearchForm, NewsletterForm
+from django.contrib import messages
+
+
+def newsletter_subscribe(request):
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thank you for subscribing!")
+            return redirect("home")  # change 'home' to your homepage name
+        else:
+            messages.error(request, "This email is already subscribed or invalid.")
+
+
 
 def product_list(request, category_slug=None):
     category = None
@@ -68,6 +82,13 @@ def product_detail(request, pk, slug=None):
         'related_products': related_products,
     }
     return render(request, 'products/product_detail.html', context)
+
+def home(request):
+    featured_products = Product.objects.filter(is_featured=True, available=True)[:8]
+    return render(request, "home.html", {
+        "featured_products": featured_products,
+    })
+
 
 
 

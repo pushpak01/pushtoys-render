@@ -3,6 +3,14 @@ from django.core.validators import MinValueValidator
 from django.utils.text import slugify
 from django.utils.html import format_html
 from sorl.thumbnail import get_thumbnail
+from django.urls import reverse
+
+class NewsletterSubscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
 
 
 class Category(models.Model):
@@ -36,8 +44,10 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_images/', blank=True, null=True)
     stock = models.PositiveIntegerField(default=0)
     available = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
     def image_preview(self, obj):
         if obj.image:
@@ -53,6 +63,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("products:detail_with_slug", kwargs={"pk": self.pk, "slug": self.slug})
 
 # Meta is an inner class inside a Django model used to configure metadata (extra settings) for that model.
     class Meta:
