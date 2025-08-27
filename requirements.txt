@@ -6,5 +6,5 @@ sorl-thumbnail
 django-widget-tweaks
 Pillow
 django-bootstrap5
-easy-thumbnails
+
 
