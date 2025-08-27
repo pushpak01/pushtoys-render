@@ -95,8 +95,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # MEDIA FILES
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "/opt/render/project/src/media"
-
+MEDIA_ROOT = BASE_DIR / "media"
 
 #cart tax added
 INDIAN_TAX_RATES = {
