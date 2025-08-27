@@ -1,15 +1,6 @@
-# Core
-Django>=4.2,<5.0
-
-# WSGI server (production)
+Django>=5.0,<6.0
 gunicorn
-
-# Static files handling
 whitenoise
-
-# Env variables
 python-dotenv
-
-# If you later switch to PostgreSQL (optional, safe to include)
-dj-database-url
-psycopg2-binary
+sorl-thumbnail
+django-widget-tweaks
