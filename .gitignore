@@ -23,9 +23,6 @@ db.sqlite3
 
 # Ignore uploaded images
 /cache/
-/media/
-/media/cache
-/media/product_images
 
 # Ignore virtual environment
 .venv/
