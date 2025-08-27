@@ -1,6 +1,10 @@
-Django>=5.0,<6.0
+Django>=4.2,<5.0
 gunicorn
 whitenoise
 python-dotenv
 sorl-thumbnail
 django-widget-tweaks
+Pillow
+django-bootstrap5
+easy-thumbnails
+
